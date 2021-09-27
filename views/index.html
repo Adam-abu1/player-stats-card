@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Player Stats Card</title>
+    <meta name="description" content="A stats card component to function and display accurately in Chrome,
+Firefox and Edge. The user is expected to be able to select from a list of players to
+view the relevant stats for that player.
+">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+<main id="PlayerCard">
+    <section class="top-half">
+        <select name="player-select" id="PlayerSelect">
+            <option value="">Select a player...</option>
+        </select>
+        <div id="PlayerPortrait">
+            <img src="" alt="">
+        </div>
+    </section>
+    <section class="bottom-half">
+        <h1 class="player-name"></h1>
+        <div id="TeamLogo">
+            <img src="" alt="">
+        </div>
+        <h3 id="player-position"></h3>
+        <div id="StatItemList"></div>
+    </section>
+
+</main>
+<script src="./js/index.js"></script>
+</body>
+</html>
