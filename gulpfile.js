@@ -9,7 +9,7 @@ const { src, dest, watch, parallel, series } = require('gulp'),
  * For the time being I am working with just html
  */
 function generateHTML() {
-    return src('./views/*.html')
+    return src('./src/index.html')
         .pipe(dest('./build'))
 }
 
@@ -27,7 +27,7 @@ function generateCSS() {
  * Generate and minify js files
  */
 function generateJs() {
-    src('./js/**.js')
+    src('./src/js/**.js')
         .pipe(concat())
         .pipe(dest('./build/js'))
 }
