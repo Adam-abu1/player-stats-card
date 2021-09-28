@@ -27,45 +27,24 @@ function generateCSS() {
  * Generate and minify js files
  */
 function generateJs() {
-    src('./src/js/**.js')
-        .pipe(concat())
+    return src('./src/js/**.js')
+        // .pipe(concat())
         .pipe(dest('./build/js'))
 }
 
 /*
- * Compress images
- */
-
-/*
- * Build Spritesheet
- */
-
-/*
- * Watch for file changes
- */
-function watchFiles() {
-    watch('views/**.html', generateHTML);
-    watch('sass/**.scss', generateCSS);
-    watch([ '**/*.js', '!node_modules/**'], runJSLinter);
-}
-
-/*
- * Clean the build directory
- */
-
-/*
  * Run a local server, serving the build directory
  */
-function runServer() {
+function runServer(cb) {
     browserSync.init({
         server: {
             baseDir: "./build"
         }
     })
 
-    watch('views/**.html', generateHTML);
-    watch('sass/**.scss', generateCSS);
-    watch("./public/**.html").on('change', browserSync.reload);
+    watch('./src/*.html', generateHTML)
+    watch('./src/sass/styles.sass', generateCSS)
+    watch("./src/*.html").on('change', browserSync.reload)
 }
 
 /*
@@ -87,14 +66,26 @@ function runJSLinter() {
 /*
  * Runs all linters available
  */
-function runLinter() {
+function runLinter(done) {
     runJSLinter()
+    done()
 }
+
+/*
+* Compress images
+*/
+
+/*
+* Build Spritesheet
+*/
+
+/*
+ * Clean the build directory
+ */
 
 exports.css = generateCSS
 exports.js = generateJs
 exports.jsLint = runJSLinter
 exports.serve = runServer
-exports.html = generateHTML;
-exports.watch = watchFiles;
-exports.default = series(runLinter, parallel(generateCSS,generateHTML), runServer);
+exports.html = generateHTML
+exports.default = series(runLinter, parallel(generateCSS, generateJs, generateHTML), runServer);

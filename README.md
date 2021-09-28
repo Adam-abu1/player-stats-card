@@ -13,9 +13,14 @@ In undertaking this task, please consider the following:
 - Any documentation / notes on build
 
 
-
-## Compiling the project
-
+## Project setup
+### Building and running the app
+To build the project and run the server run the default task by just typing:
 ```
 gulp
+```
+
+## Linting the JavaScript
+```
+gulp jsLint
 ```

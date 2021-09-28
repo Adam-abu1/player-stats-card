@@ -1,10 +1,18 @@
 $top-half-bg-color: #000
-$top-half-bg-color: #EC004F
+$bottom-half-bg-color: #EC004F
 $stat-text-color: 431147
 
 body
   display: grid
+  background-color: #fff
   height: 100vh
   width: 100vw
   place-content: center
   margin: 0
+
+  main
+    > section
+      height: 50%
+
+      .bottom-half
+        background-color: $bottom-half-bg-color

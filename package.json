@@ -15,6 +15,7 @@
     "gulp-eslint": "^6.0.0",
     "gulp-sass": "^5.0.0",
     "gulp-sass-lint": "^1.4.0",
+    "json-server": "^0.16.3",
     "sass": "^1.42.1"
   }
 }

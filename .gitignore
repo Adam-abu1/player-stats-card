@@ -123,4 +123,4 @@ dist
 # PHPStorm
 .idea
 
-./build
+build/
