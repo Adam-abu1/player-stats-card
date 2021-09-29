@@ -13,6 +13,7 @@
     "browser-sync": "^2.27.5",
     "gulp": "^4.0.2",
     "gulp-eslint": "^6.0.0",
+    "gulp-image": "^6.2.1",
     "gulp-sass": "^5.0.0",
     "gulp-sass-lint": "^1.4.0",
     "json-server": "^0.16.3",

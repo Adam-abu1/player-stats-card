@@ -1,5 +1,5 @@
 # Frontend Development Task - Player Stats Card
-![Player Stat Card example](./assets/images/StatCard.jpg)
+![Player Stat Card example](./StatCard.jpg)
 ### Task
 
 ---
@@ -14,6 +14,11 @@ In undertaking this task, please consider the following:
 
 
 ## Project setup
+### Starting up the player statistics mock API
+```
+# Run this command from the project root, add 
+json-server --watch player-stats.json --port { PORT NUMBER }
+```
 ### Building and running the app
 To build the project and run the server run the default task by just typing:
 ```

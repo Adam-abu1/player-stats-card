@@ -1,7 +1,8 @@
 const { src, dest, watch, parallel, series } = require('gulp'),
     sass = require('gulp-sass')(require('sass')),
     eslint = require('gulp-eslint'),
-    browserSync = require('browser-sync').create()
+    browserSync = require('browser-sync').create(),
+    imagemin = require('gulp-image')
     // sassLint = require('gulp-sass-lint')
 
 /*
@@ -35,16 +36,28 @@ function generateJs() {
 /*
  * Run a local server, serving the build directory
  */
-function runServer(cb) {
+function runServer(done) {
     browserSync.init({
         server: {
             baseDir: "./build"
         }
     })
 
-    watch('./src/*.html', generateHTML)
-    watch('./src/sass/styles.sass', generateCSS)
+    watch('./src/*.html', series(generateHTML))
+    watch('./src/sass/styles.sass', series(generateCSS))
     watch("./src/*.html").on('change', browserSync.reload)
+
+    done()
+}
+/*
+* Compress images and add to build folder
+*/
+function compressImages(done) {
+    src('./assets/images/*')
+        .pipe(imagemin())
+        .pipe(dest('./build/assets/images'))
+
+    done()
 }
 
 /*
@@ -72,10 +85,6 @@ function runLinter(done) {
 }
 
 /*
-* Compress images
-*/
-
-/*
 * Build Spritesheet
 */
 
@@ -88,4 +97,5 @@ exports.js = generateJs
 exports.jsLint = runJSLinter
 exports.serve = runServer
 exports.html = generateHTML
-exports.default = series(runLinter, parallel(generateCSS, generateJs, generateHTML), runServer);
+exports.compress = compressImages
+exports.default = series(runLinter, parallel(compressImages, generateCSS, generateJs, generateHTML), runServer);

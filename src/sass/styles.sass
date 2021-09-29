@@ -1,18 +1,60 @@
+@font-face
+  font-family: 'Roboto Light'
+  src: url('../../assets/fonts/Roboto-Light.ttf') format('truetype')
+  font-weight: 300
+
+
+$white: #FFF
 $top-half-bg-color: #000
 $bottom-half-bg-color: #EC004F
-$stat-text-color: 431147
+$stat-text-color: #431147
+$grey-box-bg-color: #EAEAEA
 
-body
-  display: grid
-  background-color: #fff
-  height: 100vh
-  width: 100vw
-  place-content: center
-  margin: 0
+html
+  font-size: 16px
+  font-family: 'Roboto Light', sans-serif
 
-  main
-    > section
-      height: 50%
+  body
+    display: grid
+    background-color: #fff
+    height: 100vh
+    width: 100vw
+    place-content: center
+    margin: 0
 
-      .bottom-half
-        background-color: $bottom-half-bg-color
+    main
+      > section
+        min-width: 400px
+        padding: 1rem
+        overflow-y: hidden
+        height: 50%
+
+        &.top-half
+          background-image: url("../assets/images/p4916.png")
+
+        &.bottom-half
+          background-color: $bottom-half-bg-color
+          color: $stat-text-color
+
+          #TeamLogo
+            position: absolute
+            border-radius: 50%
+
+          h1, h3
+            color: $white
+
+          h1
+            margin: 0 0 0.55rem
+
+          h3
+            margin: 0 0 1rem
+
+          .stat-item-box
+            margin-bottom: 0.2rem
+            box-shadow: 0 0 5px
+
+          .grey-box
+            background-color: $grey-box-bg-color
+            padding: 1rem
+            display: flex
+            justify-content: space-between
