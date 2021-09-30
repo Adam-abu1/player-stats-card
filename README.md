@@ -17,6 +17,7 @@ In undertaking this task, please consider the following:
 ### Starting up the player statistics mock API
 ```
 # Run this command from the project root, add 
+
 json-server --watch player-stats.json --port { PORT NUMBER }
 ```
 ### Building and running the app

@@ -76,6 +76,14 @@ function runJSLinter() {
         .pipe(eslint.failAfterError())
 }
 
+/**
+ * Takes and compiles the fonts into the build assets directory
+ */
+function processFonts(){
+    return src('./assets/fonts/*')
+        .pipe(dest('./build/assets/fonts'))
+}
+
 /*
  * Runs all linters available
  */
@@ -96,6 +104,7 @@ exports.css = generateCSS
 exports.js = generateJs
 exports.jsLint = runJSLinter
 exports.serve = runServer
+exports.fonts = processFonts
 exports.html = generateHTML
 exports.compress = compressImages
-exports.default = series(runLinter, parallel(compressImages, generateCSS, generateJs, generateHTML), runServer);
+exports.default = series(runLinter, parallel(compressImages, processFonts, generateCSS, generateJs, generateHTML), runServer);

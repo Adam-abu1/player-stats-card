@@ -1,18 +1,13 @@
-@font-face
-  font-family: 'Roboto Light'
-  src: url('../../assets/fonts/Roboto-Light.ttf') format('truetype')
-  font-weight: 300
+@import "fonts"
+@import "variables"
 
-
-$white: #FFF
-$top-half-bg-color: #000
-$bottom-half-bg-color: #EC004F
-$stat-text-color: #431147
-$grey-box-bg-color: #EAEAEA
+*
+  box-sizing: border-box
 
 html
   font-size: 16px
-  font-family: 'Roboto Light', sans-serif
+  font-family: 'Roboto', sans-serif
+  font-weight: 300
 
   body
     display: grid
@@ -23,28 +18,53 @@ html
     margin: 0
 
     main
+      box-shadow: 0 0 20px 3px $grey
+
       > section
-        min-width: 400px
-        padding: 1rem
-        overflow-y: hidden
+        min-width: 330px
         height: 50%
+        min-height: 340px
+
+        .grey-box
+          background-color: $grey-box-bg-color
+          padding: 0.8rem 1rem
+          display: flex
+          justify-content: space-between
 
         &.top-half
-          background-image: url("../assets/images/p4916.png")
+          position: relative
+          padding: 0.5rem
+
+          #PlayerPortrait
+            position: absolute
+            bottom: 0
+
+            img
+              width: 200px
+              display: block
 
         &.bottom-half
           background-color: $bottom-half-bg-color
+          position: relative
           color: $stat-text-color
+          padding: 1rem
 
           #TeamLogo
             position: absolute
+            top: -30px
+            width: 80px
             border-radius: 50%
+            height: 80px
+            right: 20px
+            background: blue
 
           h1, h3
             color: $white
+            font-weight: 400
 
           h1
             margin: 0 0 0.55rem
+            font-size: 1.4rem
 
           h3
             margin: 0 0 1rem
@@ -53,8 +73,11 @@ html
             margin-bottom: 0.2rem
             box-shadow: 0 0 5px
 
-          .grey-box
-            background-color: $grey-box-bg-color
-            padding: 1rem
-            display: flex
-            justify-content: space-between
+            .stat-name
+              font-weight: 400
+
+            .stat-value
+              font-weight: 600
+
+            &:last-child
+              margin-bottom: 0
