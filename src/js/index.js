@@ -1,3 +1,6 @@
+import * as dropdown from './dropdown.js'
+import * as card from './cardBuilder.js'
+
 const request = new XMLHttpRequest()
 request.open(
     'GET',
@@ -7,63 +10,36 @@ request.open(
 request.setRequestHeader("Accept", "application/json");
 request.send()
 
-let playersObject = {}
+export let playersList = {}
 
 request.onreadystatechange = () => {
     if (request.readyState === XMLHttpRequest.DONE) {
         const status = request.status;
         if (status === 0 || (status >= 200 && status < 400)) {
-            playersObject = JSON.parse(request.response)
+            playersList = JSON.parse(request.response)
+            dropdown.buildDropdown()
             addDisplayableStats()
             calculationStatsAddition()
-            console.log(playersObject);
-            populatePage(playersObject)
+            populatePage(playersList[0])
         }
     }
 }
-const positionMapping = {
-    'D': 'Defender',
-    'M': 'Midfielder',
-    'F': 'Striker'
-},
-    statisticMapping = {
-        'appearances': 'Appearances',
-        'goals': 'Goals',
-        'goal_assist': 'Assists'
-    }
 
-function populatePage(playerStats) {
-    // const select = document.getElementById('PlayerSelect'),
-    //     teamLogo = document.getElementById('TeamLogo')
-
-    buildNameAndPosition(playerStats[0])
-    buildStatItemsList(playerStats[0])
-    addPlayerPortrait(playerStats[0])
+export function populatePage(selectedPlayer) {
+    card.buildNameAndPosition(selectedPlayer)
+    card.buildStatItemsList(selectedPlayer)
+    card.addPlayerPortrait(selectedPlayer)
+    card.addTeamLogo(selectedPlayer)
 }
 
-function addPlayerPortrait({ player }) {
-    const portraitWrapper = document.getElementById('PlayerPortrait'),
-        portraitImgTag = document.createElement('img')
-
-    portraitImgTag.setAttribute('src', `../assets/images/${player.name.first}${player.name.last}.png`)
-    portraitImgTag.setAttribute('alt', `${player.name.first} ${player.name.last} Portrait`)
-
-    portraitWrapper.appendChild(portraitImgTag)
-
-}
-
-// function buildSelect(playerStats) {}
-
-function buildNameAndPosition({ player }) {
-    const name = document.getElementById('PlayerName'),
-        position = document.getElementById('PlayerPosition')
-
-    name.innerHTML = `${player.name.first} ${player.name.last}`
-    position.innerHTML = `${positionMapping[player.info.position]}`
+const statisticMapping = {
+    'appearances': 'Appearances',
+    'goals': 'Goals',
+    'goal_assist': 'Assists'
 }
 
 function addDisplayableStats() {
-    playersObject.forEach(playerObject => {
+    playersList.forEach(playerObject => {
         playerObject.displayableStats = []
         playerObject.stats.forEach(stat => {
             if (statisticMapping[stat.name]) {
@@ -73,9 +49,6 @@ function addDisplayableStats() {
                 playerObject.displayableStats.push(displayableStat)
             }
         })
-
-
-        // Calculate goal
     })
 }
 
@@ -83,7 +56,7 @@ function addDisplayableStats() {
  * Creating stats which require calculation
  */
 function calculationStatsAddition() {
-    playersObject.forEach(playerObject => {
+    playersList.forEach(playerObject => {
         let totalGoals = playerObject.displayableStats.find(stat => stat['name'] === 'Goals'),
             appearances = playerObject.displayableStats.find(stat => stat['name'] === 'Appearances'),
             fwdPass = playerObject.stats.find(stat => stat['name'] === 'fwd_pass'),
@@ -102,25 +75,4 @@ function calculationStatsAddition() {
 
     })
 
-}
-
-function buildStatItemsList({ displayableStats }) {
-    displayableStats.forEach(stat => {
-        let itemBox = document.createElement('div'),
-            statName = document.createElement('span'),
-            statValue = document.createElement('span')
-
-
-        statName.innerHTML = stat.name
-        statName.className = 'stat-name'
-
-        statValue.innerHTML = stat.value
-        statValue.className = 'stat-value'
-
-        const itemBoxClasses = ['stat-item-box', 'grey-box']
-        itemBox.classList.add(...itemBoxClasses)
-        itemBox.appendChild(statName)
-        itemBox.appendChild(statValue)
-        document.getElementById('StatItemList').appendChild(itemBox)
-    })
 }

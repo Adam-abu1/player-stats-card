@@ -17,6 +17,9 @@
     "gulp-sass": "^5.0.0",
     "gulp-sass-lint": "^1.4.0",
     "json-server": "^0.16.3",
-    "sass": "^1.42.1"
+    "sass": "^1.42.1",
+    "gulp.spritesmith": "^6.12.1",
+    "merge-stream": "^2.0.0",
+    "vinyl-buffer": "^1.0.1"
   }
 }

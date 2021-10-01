@@ -13,19 +13,27 @@ view the relevant stats for that player.
 <body>
 <main id="PlayerCard">
     <section class="top-half">
-        <select name="player-select" id="PlayerSelect">
-            <option value="">Select a player...</option>
-        </select>
-        <div id="PlayerPortrait"></div>
+        <div id="PlayerSelect">
+            <div id="SelectedPlayerName" class="grey-box">Select a player...
+                <img src="./assets/images/down-arrow.png" alt="Down arrow png" id="Caret">
+            </div>
+
+            <div id="DropDownMenu" class="hide"></div>
+        </div>
+        <div id="PlayerPortraitWrapper">
+            <img id="PlayerPortrait" src="" alt="">
+        </div>
     </section>
     <section class="bottom-half">
         <h1 id="PlayerName"></h1>
-        <div id="TeamLogo"></div>
+        <div id="LogoWrapper">
+            <div id="TeamLogo"></div>
+        </div>
         <h3 id="PlayerPosition"></h3>
         <div id="StatItemList"></div>
     </section>
 
 </main>
-<script src="./js/index.js"></script>
+<script type="module" src="./js/index.js"></script>
 </body>
 </html>

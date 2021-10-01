@@ -1,9 +1,11 @@
-const { src, dest, watch, parallel, series } = require('gulp'),
+const { src, dest, parallel, series } = require('gulp'),
     sass = require('gulp-sass')(require('sass')),
     eslint = require('gulp-eslint'),
     browserSync = require('browser-sync').create(),
-    imagemin = require('gulp-image')
-    // sassLint = require('gulp-sass-lint')
+    imagemin = require('gulp-image'),
+    spritesmith = require('gulp.spritesmith'),
+    buffer = require('vinyl-buffer'),
+    merge = require('merge-stream')
 
 /*
  * Process the templates and convert necessary files to html then move them to build directory
@@ -21,15 +23,13 @@ function generateCSS() {
     return src('./src/sass/*.sass')
         .pipe(sass.sync({outputStyle: 'compressed'}).on('error', sass.logError))
         .pipe(dest('./build/css'))
-        .pipe(browserSync.stream())
 }
 
 /*
- * Generate and minify js files
+ * Generate Js files in the build directory to be served
  */
 function generateJs() {
     return src('./src/js/**.js')
-        // .pipe(concat())
         .pipe(dest('./build/js'))
 }
 
@@ -43,12 +43,9 @@ function runServer(done) {
         }
     })
 
-    watch('./src/*.html', series(generateHTML))
-    watch('./src/sass/styles.sass', series(generateCSS))
-    watch("./src/*.html").on('change', browserSync.reload)
-
     done()
 }
+
 /*
 * Compress images and add to build folder
 */
@@ -59,10 +56,6 @@ function compressImages(done) {
 
     done()
 }
-
-/*
- * Refresh browser in response to changes made
- */
 
 /*
  * loads eslint configuration and lints code
@@ -79,26 +72,29 @@ function runJSLinter() {
 /**
  * Takes and compiles the fonts into the build assets directory
  */
-function processFonts(){
+function processFonts() {
     return src('./assets/fonts/*')
         .pipe(dest('./build/assets/fonts'))
 }
 
 /*
- * Runs all linters available
- */
-function runLinter(done) {
-    runJSLinter()
-    done()
-}
-
-/*
 * Build Spritesheet
 */
+function buildSpriteSheet() {
+    const spriteData =  src('./assets/sprites/*.png')
+        .pipe(spritesmith({
+            imgName: 'spriteSheet.png',
+            cssName: 'spriteSheet.sass'
+        })),
+        imgStream = spriteData.img
+            .pipe(buffer())
+            .pipe(imagemin())
+            .pipe(dest('./build/assets/spritesheet')),
+        cssStream = spriteData.css
+            .pipe(dest('./src/sass'))
 
-/*
- * Clean the build directory
- */
+    return merge(imgStream, cssStream)
+}
 
 exports.css = generateCSS
 exports.js = generateJs
@@ -106,5 +102,6 @@ exports.jsLint = runJSLinter
 exports.serve = runServer
 exports.fonts = processFonts
 exports.html = generateHTML
-exports.compress = compressImages
-exports.default = series(runLinter, parallel(compressImages, processFonts, generateCSS, generateJs, generateHTML), runServer);
+exports.compressImages = compressImages
+exports.spriteSheet = buildSpriteSheet
+exports.default = series(runJSLinter, parallel(compressImages, processFonts, generateCSS, generateJs, generateHTML), runServer)

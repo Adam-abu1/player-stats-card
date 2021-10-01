@@ -1,5 +1,6 @@
 @import "fonts"
 @import "variables"
+@import "spriteSheet"
 
 *
   box-sizing: border-box
@@ -11,7 +12,7 @@ html
 
   body
     display: grid
-    background-color: #fff
+    background-color: $page-body-bg-color
     height: 100vh
     width: 100vw
     place-content: center
@@ -20,7 +21,7 @@ html
     main
       box-shadow: 0 0 20px 3px $grey
 
-      > section
+      section
         min-width: 330px
         height: 50%
         min-height: 340px
@@ -33,7 +34,41 @@ html
 
         &.top-half
           position: relative
-          padding: 0.5rem
+          padding: 1rem 0.5rem 0
+          background-color: $top-half-bg-color
+
+          #PlayerSelect
+            width: 90%
+            margin: auto
+            font-weight: 400
+
+            &:hover
+              cursor: pointer
+
+            #SelectedPlayerName
+              padding: 0.5rem 1rem
+
+              #Caret
+                width: 20px
+
+                &.rotate-90
+                  transform: rotate(-90deg)
+
+            #DropDownMenu
+              transition: max-height 0.5s ease-out
+              max-height: 15rem
+              overflow: hidden
+              z-index: 1
+              position: relative
+
+              .option
+                flex-direction: column
+                opacity: 0.9
+                padding: 0.5rem 1rem
+                border-top: 1px solid rgba(0, 0, 0, 25%)
+
+              &.hide
+                max-height: 0
 
           #PlayerPortrait
             position: absolute
@@ -49,7 +84,7 @@ html
           color: $stat-text-color
           padding: 1rem
 
-          #TeamLogo
+          #LogoWrapper
             position: absolute
             top: -30px
             width: 80px
@@ -57,6 +92,21 @@ html
             height: 80px
             right: 20px
             background: blue
+
+            //.ManchesterCity
+            //  @include sprite($-manchester-city)
+            //
+            //.Arsenal
+            //  @include sprite($-arsenal)
+            //
+            //.LeicesterCity
+            //  @include sprite($-leicester-city)
+            //
+            //.ManchesterUnited
+            //  @include sprite($-manchester-united)
+            //
+            //.TottenhamHotspur
+            //  @include sprite($-tottenham-hotspur)
 
           h1, h3
             color: $white

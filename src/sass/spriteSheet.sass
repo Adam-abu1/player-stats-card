@@ -1,0 +1,121 @@
+// SASS variables are information about icon's compiled state, stored under its original file name
+//
+// .icon-home
+//   width: $icon-home-width
+//
+// The large array-like variables contain all information about a single icon
+// $icon-home: x y offset_x offset_y width height total_width total_height image_path
+//
+// At the bottom of this section, we provide information about the spritesheet itself
+// $spritesheet: width height image $spritesheet-sprites
+$-arsenal-name: 'Arsenal'
+$-arsenal-x: 1200px
+$-arsenal-y: 0px
+$-arsenal-offset-x: -1200px
+$-arsenal-offset-y: 0px
+$-arsenal-width: 1200px
+$-arsenal-height: 1410px
+$-arsenal-total-width: 4800px
+$-arsenal-total-height: 2463px
+$-arsenal-image: 'spriteSheet.png'
+$-arsenal: (1200px, 0px, -1200px, 0px, 1200px, 1410px, 4800px, 2463px, 'spriteSheet.png', 'Arsenal', )
+$-leicester-city-name: 'LeicesterCity'
+$-leicester-city-x: 2400px
+$-leicester-city-y: 1216px
+$-leicester-city-offset-x: -2400px
+$-leicester-city-offset-y: -1216px
+$-leicester-city-width: 1200px
+$-leicester-city-height: 1200px
+$-leicester-city-total-width: 4800px
+$-leicester-city-total-height: 2463px
+$-leicester-city-image: 'spriteSheet.png'
+$-leicester-city: (2400px, 1216px, -2400px, -1216px, 1200px, 1200px, 4800px, 2463px, 'spriteSheet.png', 'LeicesterCity', )
+$-manchester-city-name: 'ManchesterCity'
+$-manchester-city-x: 3600px
+$-manchester-city-y: 0px
+$-manchester-city-offset-x: -3600px
+$-manchester-city-offset-y: 0px
+$-manchester-city-width: 1200px
+$-manchester-city-height: 1200px
+$-manchester-city-total-width: 4800px
+$-manchester-city-total-height: 2463px
+$-manchester-city-image: 'spriteSheet.png'
+$-manchester-city: (3600px, 0px, -3600px, 0px, 1200px, 1200px, 4800px, 2463px, 'spriteSheet.png', 'ManchesterCity', )
+$-manchester-united-name: 'ManchesterUnited'
+$-manchester-united-x: 2400px
+$-manchester-united-y: 0px
+$-manchester-united-offset-x: -2400px
+$-manchester-united-offset-y: 0px
+$-manchester-united-width: 1200px
+$-manchester-united-height: 1216px
+$-manchester-united-total-width: 4800px
+$-manchester-united-total-height: 2463px
+$-manchester-united-image: 'spriteSheet.png'
+$-manchester-united: (2400px, 0px, -2400px, 0px, 1200px, 1216px, 4800px, 2463px, 'spriteSheet.png', 'ManchesterUnited', )
+$-tottenham-hotspur-name: 'TottenhamHotspur'
+$-tottenham-hotspur-x: 0px
+$-tottenham-hotspur-y: 0px
+$-tottenham-hotspur-offset-x: 0px
+$-tottenham-hotspur-offset-y: 0px
+$-tottenham-hotspur-width: 1200px
+$-tottenham-hotspur-height: 2463px
+$-tottenham-hotspur-total-width: 4800px
+$-tottenham-hotspur-total-height: 2463px
+$-tottenham-hotspur-image: 'spriteSheet.png'
+$-tottenham-hotspur: (0px, 0px, 0px, 0px, 1200px, 2463px, 4800px, 2463px, 'spriteSheet.png', 'TottenhamHotspur', )
+$spritesheet-width: 4800px
+$spritesheet-height: 2463px
+$spritesheet-image: 'spriteSheet.png'
+$spritesheet-sprites: ($-arsenal, $-leicester-city, $-manchester-city, $-manchester-united, $-tottenham-hotspur, )
+$spritesheet: (4800px, 2463px, 'spriteSheet.png', $spritesheet-sprites, )
+
+// The provided mixins are intended to be used with the array-like variables
+//
+// .icon-home
+//   @include sprite-width($icon-home)
+//
+// .icon-email
+//   @include sprite($icon-email)
+//
+// Example usage in HTML:
+//   `display: block` sprite:
+//   <div class="icon-home"></div>
+//
+// To change `display` (e.g. `display: inline-block;`), we suggest using a common CSS class:
+//   // CSS
+//   .icon {
+//     display: inline-block;
+//   }
+//
+//   // HTML
+//   <i class="icon icon-home"></i>
+@mixin sprite-width($sprite)
+  width: nth($sprite, 5)
+
+@mixin sprite-height($sprite)
+  height: nth($sprite, 6)
+
+@mixin sprite-position($sprite)
+  $sprite-offset-x: nth($sprite, 3)
+  $sprite-offset-y: nth($sprite, 4)
+  background-position: $sprite-offset-x  $sprite-offset-y
+
+@mixin sprite-image($sprite)
+  $sprite-image: nth($sprite, 9)
+  background-image: url(#{$sprite-image})
+
+@mixin sprite($sprite)
+  @include sprite-image($sprite)
+  @include sprite-position($sprite)
+  @include sprite-width($sprite)
+  @include sprite-height($sprite)
+
+// The `sprites` mixin generates identical output to the CSS template
+//   but can be overridden inside of SASS
+//
+// @include sprites($spritesheet-sprites)
+@mixin sprites($sprites)
+  @each $sprite in $sprites
+    $sprite-name: nth($sprite, 10)
+    .#{$sprite-name}
+      @include sprite($sprite)
